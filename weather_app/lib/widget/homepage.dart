@@ -98,10 +98,10 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               children: [
                 Align(
-                  alignment: Alignment.topRight,
+                  alignment: Alignment.center,
                   child: Text(
                     '${Jiffy(DateTime.now()).format(
-                      'MMM do yy, h:mm a',
+                      'MMM do yyy, h:mm a',
                     )}',
                     style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                   ),
@@ -161,6 +161,67 @@ class _HomePageState extends State<HomePage> {
                         ),
                       )
                     ],
+                  ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+
+                SizedBox(
+                  height: 230,
+                  child: ListView.builder(
+                      itemCount: forecastMap!.length,
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          margin: EdgeInsets.all(10),
+                          width: 120,
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: 27,
+                              ),
+                              Text(
+                                '${Jiffy(forecastMap!['list'][index]['dt_txt']).format('EEE h:mm')}',
+                                style: TextStyle(
+                                    fontSize: 20, color: Colors.black),
+                              ),
+                              Image.network(
+                                  'https://openweathermap.org/img/wn/${forecastMap!['list'][index]['weather'][0]['icon']}@2x.png'),
+                              Text(
+                                '${forecastMap!['list'][index]['main']['temp_min']} / ${forecastMap!['list'][index]['main']['temp_max']}',
+                                style: TextStyle(
+                                    fontSize: 15, color: Colors.black),
+                              ),
+                              Text(
+                                '${forecastMap!['list'][index]['weather'][0]['description']} ',
+                                style: TextStyle(
+                                    fontSize: 20, color: Colors.black),
+                              ),
+                            ],
+                          ),
+                          decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 173, 168, 118),
+                              borderRadius: BorderRadius.circular(80)),
+                        );
+                      }),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Text(
+                  'Humidity ${weatherMap!['main']['humidity']} & Pressure ${weatherMap!['main']['pressure']}',
+                  style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  'Sunrise ${Jiffy(DateTime.fromMillisecondsSinceEpoch(weatherMap!['sys']['sunrise'] * 1000)).format('h:mm a')} & Sunset ${Jiffy(DateTime.fromMillisecondsSinceEpoch(weatherMap!['sys']['sunset'] * 1000)).format('h:mm a')}',
+                  style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
                   ),
                 )
               ],
